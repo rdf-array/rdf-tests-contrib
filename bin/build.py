@@ -17,6 +17,7 @@ Implementations are found beside this checkout (../rdf-array/tools and .tools, .
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -298,7 +299,10 @@ def build_sparql(problems, manifests, dups, notes):
             continue
         if ext == '.srj' and not sr.same(jres, c.stdout, True):
             problems.append('sparql/results: comunica-array JSON differs from jena-array JSON')
-        write(f'sparql/results/sequences{ext}', c.stdout if c.stdout.endswith('\n') else c.stdout + '\n')
+        out = c.stdout
+        if ext == '.srj':  # comunica adds a "metadata" member that SPARQL Results JSON does not define
+            out = re.sub(r',\s*"metadata":\s*\{[^{}]*\}\s*\}\s*$', '}', out)
+        write(f'sparql/results/sequences{ext}', out if out.endswith('\n') else out + '\n')
         entries.append((typ, f'results{ext.replace(".", "-")}', f'sequence bindings in the {media} results format', [P, 'ra:SequenceResults'],
                         '[ qt:query <../eval/sequence-whole-binding.rq> ; qt:data <../eval/data.ttl> ]', f'<sequences{ext}>'))
     manifests.append(('sparql/results', sparql_manifest('results', entries)))
