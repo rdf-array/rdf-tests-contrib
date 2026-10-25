@@ -1,0 +1,49 @@
+name: rdf-array-pages
+
+# Publish this test suite, as it is in the tree, to GitHub Pages, so that test runners of rdf-array
+# implementations can read it from one stable place:
+#
+#   https://rdf-array.github.io/rdf-tests-contrib/
+#
+# Nothing is built. Modelled on shex.js-array's pages.yml.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: stage the tracked tree
+        run: |
+          mkdir _site
+          git ls-files -z | xargs -0 cp --parents -t _site
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v6
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

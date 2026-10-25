@@ -1,0 +1,241 @@
+{
+ "suite": "rdf-tests-contrib",
+ "tests": [
+  {
+   "test": "rdf/rdf-turtle/manifest#seq-object",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.turtle_object_sequence_is_one_triple"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#seq-empty",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.empty_sequence_is_not_nil"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#seq-nested-and-bnode-property-list",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.sequence_elements_nested_and_blank_node_property_list"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#seq-subject",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.sequence_as_subject"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#seq-subject-and-object",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.sequence_terms_pass_the_checker"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#seq-mixed-elements",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.turtle_round_trip"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#explicit-ladder-stays-triples",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.legacy_first_rest_ladders_are_not_abbreviated"
+   ]
+  },
+  {
+   "test": "rdf/rdf-trig/manifest#trig-seq-in-graph",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.trig_sequence"
+   ]
+  },
+  {
+   "test": "rdf/rdf-n-triples/manifest#nt-seq-object",
+   "duplicates": [
+    "jena-array jena-arq TestLangSequences.ntriples_sequence"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#exact-sequence",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.exact_sequence_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-variables",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.sequence_pattern_with_variables"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-length-mismatch",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.sequence_pattern_length_must_match"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-repeated-variable-length",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.sequence_pattern_length_must_match"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-repeated-variable",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.repeated_variable_in_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-nested",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.nested_sequence_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-empty",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.empty_sequence_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-whole-binding",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.json_results_carry_sequences"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-order-by",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.sequences_in_order_by_and_equality"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-join-equality",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.sequences_in_order_by_and_equality"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#sequence-bnode-property-list",
+   "duplicates": [
+    "comunica-array engines/query-sparql/test/QuerySparql-test.ts \"should handle a sequence holding a blank node property list\""
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#construct-sequence",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.construct_sequence_from_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-constant",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_constant"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-out-of-range",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_constant"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-variable",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_variable"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-any",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_any"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-constant-element",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_constant_element_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-constant-element-elsewhere",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_constant_element_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-nested",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.nested_position_patterns"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#position-bound-earlier",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.position_bound_by_earlier_pattern"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#function-seqlen-isseq-index",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.functions_seqlen_isseq_index"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#function-isseq-false",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.isseq_false_for_other_terms"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#function-chained-index",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.chained_index_in_expression"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#function-seq-constructor",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.seq_constructor"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#function-seq-equality",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.sequences_in_order_by_and_equality"
+   ]
+  },
+  {
+   "test": "sparql/update/manifest#insert-data-sequence",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.update_insert_data_and_delete_data"
+   ]
+  },
+  {
+   "test": "sparql/update/manifest#delete-data-sequence",
+   "duplicates": [
+    "jena-array jena-arq TestSequenceQueries.update_insert_data_and_delete_data"
+   ]
+  },
+  {
+   "test": "sparql/results/manifest#results-srj",
+   "duplicates": [
+    "comunica-array packages/actor-query-result-serialize-sparql-json test",
+    "sparqljson-parse-array test/SparqlJsonParser-test.ts \"RDF- sequences\""
+   ]
+  },
+  {
+   "test": "sparql/results/manifest#results-srx",
+   "duplicates": [
+    "comunica-array packages/actor-query-result-serialize-sparql-xml test",
+    "sparqlxml-parse-array test/SparqlXmlParser-test.ts \"RDF- sequences\""
+   ]
+  },
+  {
+   "test": "sparql/results/manifest#results-csv",
+   "duplicates": [
+    "comunica-array packages/actor-query-result-serialize-sparql-csv test"
+   ]
+  }
+ ]
+}

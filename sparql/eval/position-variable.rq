@@ -1,0 +1,2 @@
+PREFIX : <http://example/>
+SELECT ?i ?e { :x :p ((?e))[?i] } ORDER BY ?i
