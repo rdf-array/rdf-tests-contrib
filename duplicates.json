@@ -221,14 +221,14 @@
    "test": "sparql/results/manifest#results-srj",
    "duplicates": [
     "comunica-array packages/actor-query-result-serialize-sparql-json test",
-    "sparqljson-parse-array test/SparqlJsonParser-test.ts \"RDF- sequences\""
+    "sparqljson-parse-array test/SparqlJsonParser-test.ts \"rdf-array sequences\""
    ]
   },
   {
    "test": "sparql/results/manifest#results-srx",
    "duplicates": [
     "comunica-array packages/actor-query-result-serialize-sparql-xml test",
-    "sparqlxml-parse-array test/SparqlXmlParser-test.ts \"RDF- sequences\""
+    "sparqlxml-parse-array test/SparqlXmlParser-test.ts \"rdf-array sequences\""
    ]
   },
   {

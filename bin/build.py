@@ -306,8 +306,8 @@ def build_sparql(problems, manifests, dups, notes):
         entries.append((typ, f'results{ext.replace(".", "-")}', f'sequence bindings in the {media} results format', [P, 'ra:SequenceResults'],
                         '[ qt:query <../eval/sequence-whole-binding.rq> ; qt:data <../eval/data.ttl> ]', f'<sequences{ext}>'))
     manifests.append(('sparql/results', sparql_manifest('results', entries)))
-    dups.append({'test': 'sparql/results/manifest#results-srj', 'duplicates': ['comunica-array packages/actor-query-result-serialize-sparql-json test', 'sparqljson-parse-array test/SparqlJsonParser-test.ts "RDF- sequences"']})
-    dups.append({'test': 'sparql/results/manifest#results-srx', 'duplicates': ['comunica-array packages/actor-query-result-serialize-sparql-xml test', 'sparqlxml-parse-array test/SparqlXmlParser-test.ts "RDF- sequences"']})
+    dups.append({'test': 'sparql/results/manifest#results-srj', 'duplicates': ['comunica-array packages/actor-query-result-serialize-sparql-json test', 'sparqljson-parse-array test/SparqlJsonParser-test.ts "rdf-array sequences"']})
+    dups.append({'test': 'sparql/results/manifest#results-srx', 'duplicates': ['comunica-array packages/actor-query-result-serialize-sparql-xml test', 'sparqlxml-parse-array test/SparqlXmlParser-test.ts "rdf-array sequences"']})
     dups.append({'test': 'sparql/results/manifest#results-csv', 'duplicates': ['comunica-array packages/actor-query-result-serialize-sparql-csv test']})
 
 
