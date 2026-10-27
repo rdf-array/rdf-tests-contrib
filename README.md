@@ -31,5 +31,5 @@ so far. `python3 bin/build.py --check` rebuilds and fails if anything would chan
 implementations checked out beside this repository (see the script's header).
 
 The tests were seeded from the implementations' own tests, which stay where they are;
-[contrib-duplicates.md](https://github.com/rdf-array/rdf-array/blob/main/contrib-duplicates.md) in
+[contrib-duplicates.md](https://github.com/rdf-array/rdf-array/blob/main/management/contrib-duplicates.md) in
 rdf-array/rdf-array lists which test each one reproduces.
