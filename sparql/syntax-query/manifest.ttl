@@ -10,8 +10,17 @@
     rdfs:label "SPARQL-array syntax-query contrib tests" ;
     mf:entries (
         <#bad-sequence-predicate>
-        <#bad-position-empty-brackets>
-        <#bad-position-decimal>
+        <#bad-slice-colon>
+        <#bad-slice-no-ends>
+        <#bad-gap-in-template>
+        <#bad-unnest-without-as>
+        <#bad-old-position-pattern>
+        <#syntax-gap-lexing>
+        <#syntax-gap-named-or-not>
+        <#syntax-gaps-nested>
+        <#syntax-slice-forms>
+        <#syntax-in-list-and-sequence>
+        <#syntax-order-by-index>
         <#syntax-exact-sequence>
         <#syntax-sequence-variables>
         <#syntax-sequence-length-mismatch>
@@ -37,6 +46,18 @@
         <#syntax-function-chained-index>
         <#syntax-function-seq-constructor>
         <#syntax-function-seq-equality>
+        <#syntax-gap-tuple-anywhere>
+        <#syntax-gap-first-last>
+        <#syntax-gap-named-head-tail>
+        <#syntax-gap-named-position>
+        <#syntax-gap-nested-tree>
+        <#syntax-unnest-matrix-cells>
+        <#syntax-unnest-index-filter>
+        <#syntax-unnest-slice-rows>
+        <#syntax-unnest-stride>
+        <#syntax-function-chained-index-seqlen>
+        <#syntax-function-in-sequence>
+        <#syntax-function-nested-equality>
     ) .
 
 <#bad-sequence-predicate> a mf:NegativeSyntaxTest11 ;
@@ -46,18 +67,81 @@
     mf:action <bad-sequence-predicate.rq> ;
     .
 
-<#bad-position-empty-brackets> a mf:NegativeSyntaxTest11 ;
-    mf:name "bad-position-empty-brackets" ;
-    rdfs:comment "a position pattern needs a position" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
-    mf:action <bad-position-empty-brackets.rq> ;
+<#bad-slice-colon> a mf:NegativeSyntaxTest11 ;
+    mf:name "bad-slice-colon" ;
+    rdfs:comment "a slice is [m...n]: in [2:4], :4 is a prefixed name" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <bad-slice-colon.rq> ;
     .
 
-<#bad-position-decimal> a mf:NegativeSyntaxTest11 ;
-    mf:name "bad-position-decimal" ;
-    rdfs:comment "a position is an integer, a variable or *" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
-    mf:action <bad-position-decimal.rq> ;
+<#bad-slice-no-ends> a mf:NegativeSyntaxTest11 ;
+    mf:name "bad-slice-no-ends" ;
+    rdfs:comment "a slice needs at least one end" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <bad-slice-no-ends.rq> ;
+    .
+
+<#bad-gap-in-template> a mf:NegativeSyntaxTest11 ;
+    mf:name "bad-gap-in-template" ;
+    rdfs:comment "a gap is a pattern: a template builds a sequence and may not hold one" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <bad-gap-in-template.rq> ;
+    .
+
+<#bad-unnest-without-as> a mf:NegativeSyntaxTest11 ;
+    mf:name "bad-unnest-without-as" ;
+    rdfs:comment "UNNEST binds its member with AS" ;
+    mf:requires ra:SequencePatterns, ra:Unnest ;
+    mf:action <bad-unnest-without-as.rq> ;
+    .
+
+<#bad-old-position-pattern> a mf:NegativeSyntaxTest11 ;
+    mf:name "bad-old-position-pattern" ;
+    rdfs:comment "the former ((e))[i] position pattern is no longer syntax" ;
+    mf:requires ra:SequencePatterns ;
+    mf:action <bad-old-position-pattern.rq> ;
+    .
+
+<#syntax-gap-lexing> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-lexing" ;
+    rdfs:comment "1... and :a... are a member then a gap; :a...b is one prefixed name" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <syntax-gap-lexing.rq> ;
+    .
+
+<#syntax-gap-named-or-not> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-named-or-not" ;
+    rdfs:comment "( ?a ... ?b ) is a gap then a member; ( ?a ...?b ) is a named gap" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <syntax-gap-named-or-not.rq> ;
+    .
+
+<#syntax-gaps-nested> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gaps-nested" ;
+    rdfs:comment "gaps nest" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <syntax-gaps-nested.rq> ;
+    .
+
+<#syntax-slice-forms> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-slice-forms" ;
+    rdfs:comment "slices with both ends, with one end, and an index of a slice" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <syntax-slice-forms.rq> ;
+    .
+
+<#syntax-in-list-and-sequence> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-in-list-and-sequence" ;
+    rdfs:comment "IN ( … ) keeps its SPARQL 1.1 meaning; IN ?seq, NOT IN SEQ(…) and IN ?seq[i] test membership" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <syntax-in-list-and-sequence.rq> ;
+    .
+
+<#syntax-order-by-index> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-order-by-index" ;
+    rdfs:comment "an index in ORDER BY needs parentheses" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <syntax-order-by-index.rq> ;
     .
 
 <#syntax-exact-sequence> a mf:PositiveSyntaxTest11 ;
@@ -146,57 +230,57 @@
 
 <#syntax-position-constant> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-constant" ;
-    rdfs:comment "((x))[2]: the second element" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "( ?first ?e ... ): the second member, by a gap after it" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
     mf:action <../eval/position-constant.rq> ;
     .
 
 <#syntax-position-out-of-range> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-out-of-range" ;
-    rdfs:comment "a position past the end matches nothing" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "a pattern reaching past the end matches nothing" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
     mf:action <../eval/position-out-of-range.rq> ;
     .
 
 <#syntax-position-variable> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-variable" ;
-    rdfs:comment "((x))[?i]: every element, with its 1-based position" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "UNNEST(?seq AS ?e AT ?i): every member, with its 1-based position" ;
+    mf:requires ra:SequencePatterns, ra:Unnest ;
     mf:action <../eval/position-variable.rq> ;
     .
 
 <#syntax-position-any> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-any" ;
-    rdfs:comment "((x))[*]: every element of every sequence; a non-sequence matches nothing" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "UNNEST without AT: every member of every sequence; a non-sequence yields nothing" ;
+    mf:requires ra:SequencePatterns, ra:Unnest ;
     mf:action <../eval/position-any.rq> ;
     .
 
 <#syntax-position-constant-element> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-constant-element" ;
-    rdfs:comment "a constant element at a position" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "a constant first member, then a gap" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
     mf:action <../eval/position-constant-element.rq> ;
     .
 
 <#syntax-position-constant-element-elsewhere> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-constant-element-elsewhere" ;
-    rdfs:comment "the constant element is not at that position" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "the constant is not at that position" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
     mf:action <../eval/position-constant-element-elsewhere.rq> ;
     .
 
 <#syntax-position-nested> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-nested" ;
-    rdfs:comment "the first element of the second element" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "the first member of the second member" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
     mf:action <../eval/position-nested.rq> ;
     .
 
 <#syntax-position-bound-earlier> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-position-bound-earlier" ;
-    rdfs:comment "a position bound by an earlier pattern" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "a position bound by an earlier pattern indexes the sequence" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
     mf:action <../eval/position-bound-earlier.rq> ;
     .
 
@@ -233,4 +317,88 @@
     rdfs:comment "= compares whole sequences" ;
     mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
     mf:action <../eval/function-seq-equality.rq> ;
+    .
+
+<#syntax-gap-tuple-anywhere> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-tuple-anywhere" ;
+    rdfs:comment "a 3-tuple anywhere in a list of tuples: gaps before and after a nested pattern" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <../eval/gap-tuple-anywhere.rq> ;
+    .
+
+<#syntax-gap-first-last> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-first-last" ;
+    rdfs:comment "the first member, nested into, and the last member" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <../eval/gap-first-last.rq> ;
+    .
+
+<#syntax-gap-named-head-tail> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-named-head-tail" ;
+    rdfs:comment "a named gap ...?t binds the rest of the list, as the slice [2...] does" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:SequenceFunctions ;
+    mf:action <../eval/gap-named-head-tail.rq> ;
+    .
+
+<#syntax-gap-named-position> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-named-position" ;
+    rdfs:comment "the named gap before a member holds the members before it: SEQLEN(?pre) + 1 is its position" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:SequenceFunctions ;
+    mf:action <../eval/gap-named-position.rq> ;
+    .
+
+<#syntax-gap-nested-tree> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-gap-nested-tree" ;
+    rdfs:comment "gaps at two levels of recursive data" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns ;
+    mf:action <../eval/gap-nested-tree.rq> ;
+    .
+
+<#syntax-unnest-matrix-cells> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-unnest-matrix-cells" ;
+    rdfs:comment "UNNEST twice: every cell with its row and column" ;
+    mf:requires ra:SequencePatterns, ra:Unnest ;
+    mf:action <../eval/unnest-matrix-cells.rq> ;
+    .
+
+<#syntax-unnest-index-filter> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-unnest-index-filter" ;
+    rdfs:comment "UNNEST, then ?comp[1] and ?comp[3][1] into each tuple; comparing the string 'high' with 90 is a type error, so :obs3 drops out" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:SequenceFunctions ;
+    mf:action <../eval/unnest-index-filter.rq> ;
+    .
+
+<#syntax-unnest-slice-rows> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-unnest-slice-rows" ;
+    rdfs:comment "a slice of every row, clamped to the short row" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:SequenceFunctions ;
+    mf:action <../eval/unnest-slice-rows.rq> ;
+    .
+
+<#syntax-unnest-stride> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-unnest-stride" ;
+    rdfs:comment "the odd positions of a flat key/value list, each with the member after it: ?p[?i + 1]" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:SequenceFunctions ;
+    mf:action <../eval/unnest-stride.rq> ;
+    .
+
+<#syntax-function-chained-index-seqlen> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-function-chained-index-seqlen" ;
+    rdfs:comment "?rows[2][3] and SEQLEN(?rows[2]); an index out of range leaves ?cell unbound" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <../eval/function-chained-index-seqlen.rq> ;
+    .
+
+<#syntax-function-in-sequence> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-function-in-sequence" ;
+    rdfs:comment "SEQ(3, 4) IN ?pts: membership, with a sequence as the needle" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <../eval/function-in-sequence.rq> ;
+    .
+
+<#syntax-function-nested-equality> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-function-nested-equality" ;
+    rdfs:comment "a nested sequence compared whole, by = with SEQ(SEQ(…)) and by a pattern" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
+    mf:action <../eval/function-nested-equality.rq> ;
     .

@@ -1,2 +1,2 @@
 PREFIX : <http://example/>
-SELECT ?s { ?s :p ((:a))[2] }
+SELECT ?s { ?s :p ( ?first :a ... ) }

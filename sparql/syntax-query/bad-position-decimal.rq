@@ -1,2 +1,0 @@
-PREFIX : <http://example/>
-SELECT * { ?s :p ((?e))[1.5] }

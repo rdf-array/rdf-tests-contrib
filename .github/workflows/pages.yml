@@ -9,7 +9,7 @@ name: rdf-array-pages
 
 on:
   push:
-    branches: [main]
+    branches: [rdf-sequences]
   workflow_dispatch:
 
 permissions:

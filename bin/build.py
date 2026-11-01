@@ -9,10 +9,17 @@ must be isomorphic (blank nodes inside sequences included) and the evaluation te
 that reading. Each negative test must be rejected by both.
 SPARQL tests: jena-array evaluates each query or update and its result is the expectation; comunica-array
 must give the same result for every test whose features it has (sequence patterns, ordering, CONSTRUCT,
-results). Position patterns ((x))[i] and the functions isSEQ, SEQLEN, SEQ and x[i] are the syntax proposed
-today; only jena-array implements them, and every test using them says so with mf:requires.
+results). Gap patterns ( ... ?x ...?rest ), UNNEST(expr AS ?x AT ?i) and the functions isSEQ, SEQLEN, SEQ,
+x[i], x[m...n] and ?x IN ?seq are the syntax of rdf-array's docs/array-syntax.md, which replaced the
+((x))[i] position patterns on 2026-10-31; every test using them says so with mf:requires (ra:GapPatterns,
+ra:Unnest, ra:SequenceFunctions), and only jena-array is expected to run them.
 Implementations are found beside this checkout (../rdf-array/tools and .tools, ../N3.js-array,
 ../comunica-array) or through JENA_ARRAY_TOOL, N3_ARRAY and COMUNICA_ARRAY.
+
+When the new syntax was adopted no implementation read it, so the .rq/.ru files, the .srj and .nt
+expectations of the tests that use it and the syntax-query verdicts were produced from these tables by
+the array-syntax harness (its patched SPARQL.js grammar and evaluator, tools/array-syntax in rdf-array);
+`--check` must wait for jena-array and should then reproduce them.
 """
 import json
 import os
@@ -84,9 +91,22 @@ DATA = {
     'data-repeat': '@prefix : <http://example/> .\n:s :p (5 5) .\n:t :p (5 6) .\n',
     'data-index': '@prefix : <http://example/> .\n:s :p (10 20 30) ; :idx 2 .\n',
     'data-coding': '@prefix : <http://example/> .\n:v :coding ( [ :system :loinc ; :code "1234-5" ] ) .\n',
+    # docs/array-syntax.md §4: tuples in lists, matrices (one ragged), a polyline, a flat key/value list, a tree
+    'data-nested': '''@prefix : <http://example/> .
+:obs1 :component ( ( "8480-6" "systolic"  ( 120 "mm[Hg]" ) )
+                   ( "8462-4" "diastolic" (  80 "mm[Hg]" ) ) ) .
+:obs2 :component ( ( "8480-6" "systolic"  ( 150 "mm[Hg]" ) )
+                   ( "8462-4" "diastolic" (  95 "mm[Hg]" ) ) ) .
+:obs3 :component ( ( "8480-6" "systolic"  ( "high" "mm[Hg]" ) ) ) .
+:m1   :matrix ( ( 1 2 3 ) ( 4 5 6 ) ) .
+:m2   :matrix ( ( 1 2 3 ) ( 4 5 ) ) .
+:poly :points ( ( 0 0 ) ( 3 0 ) ( 3 4 ) ) .
+:kv   :pairs  ( "a" 1 "b" 2 "c" 3 ) .
+:tree :node   ( "root" ( ( "left" ( ) ) ( "right" ( ( "leaf" ( ) ) ) ) ) ) .
+''',
 }
-# name, data, query, features, ordered?, comment, duplicates; features beyond SequencePatterns mark the proposed syntax
-P, PP, F = 'ra:SequencePatterns', 'ra:PositionPatterns', 'ra:SequenceFunctions'
+# name, data, query, features, ordered?, comment, duplicates; features beyond SequencePatterns mark the array syntax
+P, G, U, F = 'ra:SequencePatterns', 'ra:GapPatterns', 'ra:Unnest', 'ra:SequenceFunctions'
 QUERIES = [
     ('exact-sequence', 'data', 'SELECT ?s { ?s :p (1 2 3) }', [P], False, 'a sequence term in a pattern matches an equal sequence', [f'{JQ}.exact_sequence_pattern']),
     ('sequence-variables', 'data', 'SELECT ?a ?b { :x :p (1 ?a ?b) }', [P], False, 'variables inside a sequence bind to its elements', [f'{JQ}.sequence_pattern_with_variables']),
@@ -100,29 +120,54 @@ QUERIES = [
     ('sequence-join-equality', 'data', 'SELECT ?s { ?s :p ?seq . :x :p ?seq }', [P], False, 'equal sequences join', [f'{JQ}.sequences_in_order_by_and_equality']),
     ('sequence-bnode-property-list', 'data-coding', 'SELECT ?code { ?v :coding ( [ :code ?code ] ) }', [P], False, 'a blank node property list inside a sequence pattern', [f'{CQ} "should handle a sequence holding a blank node property list"']),
     ('construct-sequence', 'data', 'CONSTRUCT { ?s :r (?a ?b) } WHERE { ?s :p (?a ?b ?c) }', [P], False, 'CONSTRUCT builds a sequence from bound elements', [f'{JQ}.construct_sequence_from_pattern']),
-    ('position-constant', 'data', 'SELECT ?e { :x :p ((?e))[2] }', [P, PP], False, '((x))[2]: the second element', [f'{JQ}.position_constant']),
-    ('position-out-of-range', 'data', 'SELECT ?e { :x :p ((?e))[4] }', [P, PP], False, 'a position past the end matches nothing', [f'{JQ}.position_constant']),
-    ('position-variable', 'data', 'SELECT ?i ?e { :x :p ((?e))[?i] } ORDER BY ?i', [P, PP], True, '((x))[?i]: every element, with its 1-based position', [f'{JQ}.position_variable']),
-    ('position-any', 'data', 'SELECT ?s ?e { ?s :p ((?e))[*] } ORDER BY ?s ?e', [P, PP], True, '((x))[*]: every element of every sequence; a non-sequence matches nothing', [f'{JQ}.position_any']),
-    ('position-constant-element', 'data', 'SELECT ?s { ?s :p ((:a))[1] }', [P, PP], False, 'a constant element at a position', [f'{JQ}.position_constant_element_pattern']),
-    ('position-constant-element-elsewhere', 'data', 'SELECT ?s { ?s :p ((:a))[2] }', [P, PP], False, 'the constant element is not at that position', [f'{JQ}.position_constant_element_pattern']),
-    ('position-nested', 'data', 'SELECT ?e { :y :p ((((?e))[1]))[2] }', [P, PP], False, 'the first element of the second element', [f'{JQ}.nested_position_patterns']),
-    ('position-bound-earlier', 'data-index', 'SELECT ?e { :s :idx ?i . :s :p ((?e))[?i] }', [P, PP], False, 'a position bound by an earlier pattern', [f'{JQ}.position_bound_by_earlier_pattern']),
+    ('position-constant', 'data', 'SELECT ?e { :x :p ( ?first ?e ... ) }', [P, G], False, '( ?first ?e ... ): the second member, by a gap after it', [f'{JQ}.position_constant']),
+    ('position-out-of-range', 'data', 'SELECT ?e { :x :p ( ?a ?b ?c ?e ... ) }', [P, G], False, 'a pattern reaching past the end matches nothing', [f'{JQ}.position_constant']),
+    ('position-variable', 'data', 'SELECT ?i ?e { :x :p ?seq UNNEST(?seq AS ?e AT ?i) } ORDER BY ?i', [P, U], True, 'UNNEST(?seq AS ?e AT ?i): every member, with its 1-based position', [f'{JQ}.position_variable']),
+    ('position-any', 'data', 'SELECT ?s ?e { ?s :p ?seq UNNEST(?seq AS ?e) } ORDER BY ?s ?e', [P, U], True, 'UNNEST without AT: every member of every sequence; a non-sequence yields nothing', [f'{JQ}.position_any']),
+    ('position-constant-element', 'data', 'SELECT ?s { ?s :p ( :a ... ) }', [P, G], False, 'a constant first member, then a gap', [f'{JQ}.position_constant_element_pattern']),
+    ('position-constant-element-elsewhere', 'data', 'SELECT ?s { ?s :p ( ?first :a ... ) }', [P, G], False, 'the constant is not at that position', [f'{JQ}.position_constant_element_pattern']),
+    ('position-nested', 'data', 'SELECT ?e { :y :p ( ?first ( ?e ... ) ... ) }', [P, G], False, 'the first member of the second member', [f'{JQ}.nested_position_patterns']),
+    ('position-bound-earlier', 'data-index', 'SELECT ?e { :s :idx ?i . :s :p ?seq BIND(?seq[?i] AS ?e) }', [P, F], False, 'a position bound by an earlier pattern indexes the sequence', [f'{JQ}.position_bound_by_earlier_pattern']),
     ('function-seqlen-isseq-index', 'data', 'SELECT ?s ?n ?second ?isseq { ?s :p ?seq . FILTER(isSEQ(?seq)) BIND(SEQLEN(?seq) AS ?n) BIND(?seq[2] AS ?second) BIND(isSEQ(?seq) AS ?isseq) } ORDER BY ?n', [P, F], True, 'SEQLEN, isSEQ and x[i]; an index out of range leaves the variable unbound', [f'{JQ}.functions_seqlen_isseq_index']),
     ('function-isseq-false', 'data', 'SELECT ?s { ?s :p ?o FILTER(!isSEQ(?o)) }', [P, F], False, 'isSEQ is false for other terms', [f'{JQ}.isseq_false_for_other_terms']),
     ('function-chained-index', 'data', 'SELECT ?e { :y :p ?seq BIND(?seq[2][1] AS ?e) }', [P, F], False, 'x[i][j] indexes nested sequences', [f'{JQ}.chained_index_in_expression']),
     ('function-seq-constructor', '-', 'SELECT ?seq { BIND(SEQ(1, :a, SEQ()) AS ?seq) }', [P, F], False, 'SEQ(...) makes a sequence', [f'{JQ}.seq_constructor']),
     ('function-seq-equality', 'data', 'SELECT ?s { ?s :p ?seq FILTER(?seq = SEQ(1, 2, 3)) }', [P, F], False, '= compares whole sequences', [f'{JQ}.sequences_in_order_by_and_equality']),
+    # docs/array-syntax.md §4.1, with its results
+    ('gap-tuple-anywhere', 'data-nested', 'SELECT ?obs ?v ?unit WHERE {\n  ?obs :component ( ... ( "8480-6" ?name ( ?v ?unit ) ) ... )\n}', [P, G], False, 'a 3-tuple anywhere in a list of tuples: gaps before and after a nested pattern', []),
+    ('gap-first-last', 'data-nested', 'SELECT ?x0 ?last WHERE { :poly :points ( ( ?x0 ?y0 ) ... ?last ) }', [P, G], False, 'the first member, nested into, and the last member', []),
+    ('gap-named-head-tail', 'data-nested', 'SELECT ?h ?t ?t2 WHERE {\n  :poly :points ( ?h ...?t ) .\n  :poly :points ?pts BIND(?pts[2...] AS ?t2)\n}', [P, G, F], False, 'a named gap ...?t binds the rest of the list, as the slice [2...] does', []),
+    ('gap-named-position', 'data-nested', 'SELECT ?x ?i WHERE { :poly :points ( ...?pre ?x ... ) BIND(SEQLEN(?pre) + 1 AS ?i) }', [P, G, F], False, 'the named gap before a member holds the members before it: SEQLEN(?pre) + 1 is its position', []),
+    ('gap-nested-tree', 'data-nested', 'SELECT ?child ?grandchild WHERE {\n  :tree :node ( "root" ( ... ( ?child ( ... ( ?grandchild ?kids ) ... ) ) ... ) )\n}', [P, G], False, 'gaps at two levels of recursive data', []),
+    ('unnest-matrix-cells', 'data-nested', 'SELECT ?m ?i ?j ?x WHERE {\n  ?m :matrix ?rows .\n  UNNEST(?rows AS ?row AT ?i)\n  UNNEST(?row AS ?x AT ?j)\n}', [P, U], False, 'UNNEST twice: every cell with its row and column', []),
+    ('unnest-index-filter', 'data-nested', 'SELECT ?obs ?i ?code ?v WHERE {\n  ?obs :component ?c .\n  UNNEST(?c AS ?comp AT ?i)\n  BIND(?comp[1] AS ?code)\n  BIND(?comp[3][1] AS ?v)\n  FILTER(?v >= 90)\n}', [P, U, F], False, "UNNEST, then ?comp[1] and ?comp[3][1] into each tuple; comparing the string 'high' with 90 is a type error, so :obs3 drops out", []),
+    ('unnest-slice-rows', 'data-nested', 'SELECT ?m ?i ?cols WHERE {\n  ?m :matrix ?rows .\n  UNNEST(?rows AS ?row AT ?i)\n  BIND(?row[2...3] AS ?cols)\n}', [P, U, F], False, 'a slice of every row, clamped to the short row', []),
+    ('unnest-stride', 'data-nested', 'SELECT ?k ?v WHERE {\n  :kv :pairs ?p .\n  UNNEST(?p AS ?k AT ?i)\n  BIND(?p[?i + 1] AS ?v)\n  FILTER(?i - 2 * FLOOR(?i / 2) = 1)\n}', [P, U, F], False, 'the odd positions of a flat key/value list, each with the member after it: ?p[?i + 1]', []),
+    ('function-chained-index-seqlen', 'data-nested', 'SELECT ?m ?cell ?len WHERE {\n  ?m :matrix ?rows .\n  BIND(?rows[2][3] AS ?cell)\n  BIND(SEQLEN(?rows[2]) AS ?len)\n}', [P, F], False, '?rows[2][3] and SEQLEN(?rows[2]); an index out of range leaves ?cell unbound', []),
+    ('function-in-sequence', 'data-nested', 'SELECT ?s WHERE { ?s :points ?pts FILTER(SEQ(3, 4) IN ?pts) }', [P, F], False, 'SEQ(3, 4) IN ?pts: membership, with a sequence as the needle', []),
+    ('function-nested-equality', 'data-nested', 'SELECT ?m ?n WHERE {\n  ?m :matrix ?rows FILTER(?rows = SEQ(SEQ(1, 2, 3), SEQ(4, 5, 6)))\n  ?n :matrix ( ( 1 2 3 ) ( 4 5 6 ) )\n}', [P, F], False, 'a nested sequence compared whole, by = with SEQ(SEQ(…)) and by a pattern', []),
 ]
 UPDATES = [
     ('insert-data-sequence', '', 'INSERT DATA { :n :p (4 5) . :n :q () }', [P], 'INSERT DATA inserts sequence terms', [f'{JQ}.update_insert_data_and_delete_data']),
     ('delete-data-sequence', '@prefix : <http://example/> .\n:n :p (4 5) ; :q () .\n', 'DELETE DATA { :n :p (4 5) }', [P], 'DELETE DATA removes the triple with an equal sequence', [f'{JQ}.update_insert_data_and_delete_data']),
-    ('delete-where-position', '@prefix : <http://example/> .\n:n :tags ("a" "b") .\n', 'DELETE { ?s :tags ?seq } INSERT { ?s :tag ?t } WHERE { ?s :tags ?seq . ?s :tags ((?t))[*] }', [P, PP], 'spread a sequence into repeated properties', []),
+    ('delete-where-position', '@prefix : <http://example/> .\n:n :tags ("a" "b") .\n', 'DELETE { ?s :tags ?seq } INSERT { ?s :tag ?t } WHERE { ?s :tags ?seq UNNEST(?seq AS ?t) }', [P, U], 'spread a sequence into repeated properties with UNNEST', []),
 ]
 SYNTAX_BAD = [
     ('bad-sequence-predicate', 'SELECT * { ?s ( ?p ) ?o }', [P], 'a sequence is not a predicate'),
-    ('bad-position-empty-brackets', 'SELECT * { ?s :p ((?e))[] }', [P, PP], 'a position pattern needs a position'),
-    ('bad-position-decimal', 'SELECT * { ?s :p ((?e))[1.5] }', [P, PP], 'a position is an integer, a variable or *'),
+    ('bad-slice-colon', 'SELECT * { ?s :p ?o BIND(?o[2:4] AS ?x) }', [P, F], 'a slice is [m...n]: in [2:4], :4 is a prefixed name'),
+    ('bad-slice-no-ends', 'SELECT * { ?s :p ?o BIND(?o[...] AS ?x) }', [P, F], 'a slice needs at least one end'),
+    ('bad-gap-in-template', 'CONSTRUCT { ?s :p ( ?a ... ) } WHERE { ?s :p ?a }', [P, G], 'a gap is a pattern: a template builds a sequence and may not hold one'),
+    ('bad-unnest-without-as', 'SELECT * { ?s :p ?seq UNNEST(?seq ?x) }', [P, U], 'UNNEST binds its member with AS'),
+    ('bad-old-position-pattern', 'SELECT * { ?s :p ((?e))[1] }', [P], 'the former ((e))[i] position pattern is no longer syntax'),
+]
+# positive syntax tests of the array syntax's lexing and expression forms (docs/array-syntax.md §5); not evaluated
+SYNTAX_GOOD = [
+    ('syntax-gap-lexing', 'SELECT * { ?s :p ( 1... ) . ?s :q ( :a... ) . ?s :r ( :a...b ) }', [P, G], '1... and :a... are a member then a gap; :a...b is one prefixed name'),
+    ('syntax-gap-named-or-not', 'SELECT * { ?s :p ( ?a ... ?b ) . ?s :q ( ?a ...?b ) }', [P, G], '( ?a ... ?b ) is a gap then a member; ( ?a ...?b ) is a named gap'),
+    ('syntax-gaps-nested', 'SELECT * { ?m :matrix ( ... ( ... ?x ... ) ... ) }', [P, G], 'gaps nest'),
+    ('syntax-slice-forms', 'SELECT * { ?s :p ?o BIND(?o[2...4] AS ?x) BIND(?o[...SEQLEN(?o) - 1] AS ?y) BIND(?o[2...][1] AS ?z) }', [P, F], 'slices with both ends, with one end, and an index of a slice'),
+    ('syntax-in-list-and-sequence', 'SELECT * { ?s :p ?o FILTER(?o IN (?a) && ?o IN ?a && ?o NOT IN SEQ(1, 2) && 3 IN ?a[1]) }', [P, F], 'IN ( … ) keeps its SPARQL 1.1 meaning; IN ?seq, NOT IN SEQ(…) and IN ?seq[i] test membership'),
+    ('syntax-order-by-index', 'SELECT ?x { ?s :p ?x } ORDER BY (?x[1])', [P, F], 'an index in ORDER BY needs parentheses'),
 ]
 
 
@@ -284,6 +329,12 @@ def build_sparql(problems, manifests, dups, notes):
         if feats == [P] and comunica(q, '-', 'application/sparql-results+json').returncode == 0:
             problems.append(f'sparql/syntax-query/{name}: comunica-array accepts it')
         entries.append(('mf:NegativeSyntaxTest11', name, comment, feats, f'<{q.name}>', None))
+    for name, query, feats, comment in SYNTAX_GOOD:
+        q = ROOT / f'sparql/syntax-query/{name}.rq'
+        write(q.relative_to(ROOT), X + query + '\n')
+        if not jena('inspect', q).stdout.startswith('none'):
+            problems.append(f'sparql/syntax-query/{name}: jena-array rejects it')
+        entries.append(('mf:PositiveSyntaxTest11', name, comment, feats, f'<{q.name}>', None))
     for name, data, query, feats, ordered, comment, dup in QUERIES:  # every evaluation query is also a positive syntax test
         entries.append(('mf:PositiveSyntaxTest11', 'syntax-' + name, comment, feats, f'<../eval/{name}.rq>', None))
     manifests.append(('sparql/syntax-query', sparql_manifest('syntax-query', entries)))
@@ -354,7 +405,7 @@ def main():
     write('duplicates.json', json.dumps({'suite': 'rdf-tests-contrib', 'tests': dups}, indent=1) + '\n')
     n_syntax = sum(len(c) for *_, c in SYNTAXES)
     print(f'{n_syntax} RDF syntax tests (jena-array = N3.js-array), {len(QUERIES)} SPARQL evaluation, {len(UPDATES)} update, '
-          f'{len(SYNTAX_BAD) + len(QUERIES)} syntax and 4 results-format tests; jena-array only (proposed syntax): {", ".join(notes)}')
+          f'{len(SYNTAX_BAD) + len(SYNTAX_GOOD) + len(QUERIES)} syntax and 4 results-format tests; jena-array only (proposed syntax): {", ".join(notes)}')
 
 
 if __name__ == '__main__':

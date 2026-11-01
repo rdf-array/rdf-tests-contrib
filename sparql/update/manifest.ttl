@@ -32,8 +32,8 @@
 
 <#delete-where-position> a mf:UpdateEvaluationTest ;
     mf:name "delete-where-position" ;
-    rdfs:comment "spread a sequence into repeated properties" ;
-    mf:requires ra:SequencePatterns, ra:PositionPatterns ;
+    rdfs:comment "spread a sequence into repeated properties with UNNEST" ;
+    mf:requires ra:SequencePatterns, ra:Unnest ;
     mf:action [ ut:request <delete-where-position.ru> ; ut:data <delete-where-position-pre.ttl> ] ;
     mf:result [ ut:data <delete-where-position-post.nt> ] ;
     .
