@@ -15,12 +15,22 @@
         <#bad-gap-in-template>
         <#bad-unnest-without-as>
         <#bad-old-position-pattern>
+        <#undef-bad-object>
+        <#undef-bad-subject>
+        <#undef-bad-predicate>
+        <#undef-bad-bind>
+        <#undef-bad-filter>
+        <#undef-bad-function-argument>
+        <#undef-bad-template-object>
         <#syntax-gap-lexing>
         <#syntax-gap-named-or-not>
         <#syntax-gaps-nested>
         <#syntax-slice-forms>
         <#syntax-in-list-and-sequence>
         <#syntax-order-by-index>
+        <#undef-syntax-prefix>
+        <#undef-syntax-nested>
+        <#undef-syntax-template>
         <#syntax-exact-sequence>
         <#syntax-sequence-variables>
         <#syntax-sequence-length-mismatch>
@@ -58,6 +68,53 @@
         <#syntax-function-chained-index-seqlen>
         <#syntax-function-in-sequence>
         <#syntax-function-nested-equality>
+        <#syntax-undef-variable-unbound>
+        <#syntax-undef-length-counts>
+        <#syntax-undef-pattern-matches-slot>
+        <#syntax-undef-constant-pattern>
+        <#syntax-undef-pattern-case>
+        <#syntax-undef-constant-no-match>
+        <#syntax-undef-constant-and-variable>
+        <#syntax-undef-join-bgp-before>
+        <#syntax-undef-join-bgp-after>
+        <#syntax-undef-join-values-before>
+        <#syntax-undef-join-values-after>
+        <#syntax-undef-join-groups>
+        <#syntax-undef-join-bind>
+        <#syntax-undef-join-value-at-member>
+        <#syntax-undef-repeated-variable>
+        <#syntax-undef-gap-stops-at-slot>
+        <#syntax-undef-named-gap-keeps-slots>
+        <#syntax-undef-gap-and-undef-pattern>
+        <#syntax-undef-nested>
+        <#syntax-undef-whole-value>
+        <#syntax-undef-whole-value-join>
+        <#syntax-undef-filter-not-bound>
+        <#syntax-undef-filter-equal>
+        <#syntax-undef-filter-compare>
+        <#syntax-undef-optional-after-pattern>
+        <#syntax-undef-optional-binds>
+        <#syntax-undef-index>
+        <#syntax-undef-seqlen-slice>
+        <#syntax-undef-in-member>
+        <#syntax-undef-in-skips-slot>
+        <#syntax-undef-not-in-skips-slot>
+        <#syntax-undef-equal-seq>
+        <#syntax-undef-sameterm-seq>
+        <#syntax-undef-equal-value>
+        <#syntax-undef-not-equal-value>
+        <#syntax-undef-seq-unbound>
+        <#syntax-undef-seq-literal-slot>
+        <#syntax-undef-seq-round-trip>
+        <#syntax-undef-seq-error>
+        <#syntax-undef-unnest>
+        <#syntax-undef-unnest-bound>
+        <#syntax-undef-order-by>
+        <#syntax-undef-order-by-members>
+        <#syntax-undef-values-unchanged>
+        <#syntax-undef-construct-round-trip>
+        <#syntax-undef-construct-template-slot>
+        <#syntax-undef-construct-top-level-unbound>
     ) .
 
 <#bad-sequence-predicate> a mf:NegativeSyntaxTest11 ;
@@ -102,6 +159,55 @@
     mf:action <bad-old-position-pattern.rq> ;
     .
 
+<#undef-bad-object> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-object" ;
+    rdfs:comment "a slot is only a member of a sequence, not an object" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-object.rq> ;
+    .
+
+<#undef-bad-subject> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-subject" ;
+    rdfs:comment "nor a subject" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-subject.rq> ;
+    .
+
+<#undef-bad-predicate> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-predicate" ;
+    rdfs:comment "nor a predicate" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-predicate.rq> ;
+    .
+
+<#undef-bad-bind> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-bind" ;
+    rdfs:comment "nor an expression" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-bind.rq> ;
+    .
+
+<#undef-bad-filter> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-filter" ;
+    rdfs:comment "nor an operand" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-filter.rq> ;
+    .
+
+<#undef-bad-function-argument> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-function-argument" ;
+    rdfs:comment "only SEQ takes it as an argument" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-function-argument.rq> ;
+    .
+
+<#undef-bad-template-object> a mf:NegativeSyntaxTest11 ;
+    mf:name "undef-bad-template-object" ;
+    rdfs:comment "nor an object in a template" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-bad-template-object.rq> ;
+    .
+
 <#syntax-gap-lexing> a mf:PositiveSyntaxTest11 ;
     mf:name "syntax-gap-lexing" ;
     rdfs:comment "1... and :a... are a member then a gap; :a...b is one prefixed name" ;
@@ -142,6 +248,27 @@
     rdfs:comment "an index in ORDER BY needs parentheses" ;
     mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
     mf:action <syntax-order-by-index.rq> ;
+    .
+
+<#undef-syntax-prefix> a mf:PositiveSyntaxTest11 ;
+    mf:name "undef-syntax-prefix" ;
+    rdfs:comment "undef:x is a prefixed name and undef alone a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-syntax-prefix.rq> ;
+    .
+
+<#undef-syntax-nested> a mf:PositiveSyntaxTest11 ;
+    mf:name "undef-syntax-nested" ;
+    rdfs:comment "a slot at depth, beside a gap, in any case" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action <undef-syntax-nested.rq> ;
+    .
+
+<#undef-syntax-template> a mf:PositiveSyntaxTest11 ;
+    mf:name "undef-syntax-template" ;
+    rdfs:comment "a slot in a template" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <undef-syntax-template.rq> ;
     .
 
 <#syntax-exact-sequence> a mf:PositiveSyntaxTest11 ;
@@ -401,4 +528,333 @@
     rdfs:comment "a nested sequence compared whole, by = with SEQ(SEQ(…)) and by a pattern" ;
     mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
     mf:action <../eval/function-nested-equality.rq> ;
+    .
+
+<#syntax-undef-variable-unbound> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-variable-unbound" ;
+    rdfs:comment "a variable at a slot stays unbound" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-variable-unbound.rq> ;
+    .
+
+<#syntax-undef-length-counts> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-length-counts" ;
+    rdfs:comment "a slot counts: the length still has to match" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-length-counts.rq> ;
+    .
+
+<#syntax-undef-pattern-matches-slot> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-pattern-matches-slot" ;
+    rdfs:comment "undef in a pattern matches only a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-pattern-matches-slot.rq> ;
+    .
+
+<#syntax-undef-constant-pattern> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-constant-pattern" ;
+    rdfs:comment "a sequence term with a slot, written whole" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-constant-pattern.rq> ;
+    .
+
+<#syntax-undef-pattern-case> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-pattern-case" ;
+    rdfs:comment "undef in any case" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-pattern-case.rq> ;
+    .
+
+<#syntax-undef-constant-no-match> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-constant-no-match" ;
+    rdfs:comment "a constant does not match a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-constant-no-match.rq> ;
+    .
+
+<#syntax-undef-constant-and-variable> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-constant-and-variable" ;
+    rdfs:comment "a constant does not match a slot, beside a variable" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-constant-and-variable.rq> ;
+    .
+
+<#syntax-undef-join-bgp-before> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-bgp-before" ;
+    rdfs:comment "a variable bound earlier in the BGP is compatible with a slot; :y holds 2, not 5" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-bgp-before.rq> ;
+    .
+
+<#syntax-undef-join-bgp-after> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-bgp-after" ;
+    rdfs:comment "the same with the triple patterns the other way round" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-bgp-after.rq> ;
+    .
+
+<#syntax-undef-join-values-before> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-values-before" ;
+    rdfs:comment "VALUES before: the variable joins through the slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-values-before.rq> ;
+    .
+
+<#syntax-undef-join-values-after> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-values-after" ;
+    rdfs:comment "VALUES after" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-values-after.rq> ;
+    .
+
+<#syntax-undef-join-groups> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-groups" ;
+    rdfs:comment "a join of two groups" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-groups.rq> ;
+    .
+
+<#syntax-undef-join-bind> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-bind" ;
+    rdfs:comment "BIND before" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-bind.rq> ;
+    .
+
+<#syntax-undef-join-value-at-member> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-join-value-at-member" ;
+    rdfs:comment "a bound variable matches an equal member, and joins through the slot of :x too" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-join-value-at-member.rq> ;
+    .
+
+<#syntax-undef-repeated-variable> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-repeated-variable" ;
+    rdfs:comment "a repeated variable: a slot leaves the binding to the other position" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-repeated-variable.rq> ;
+    .
+
+<#syntax-undef-gap-stops-at-slot> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-gap-stops-at-slot" ;
+    rdfs:comment "a gap stops at each slot: three solutions, one with ?m unbound" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-gap-stops-at-slot.rq> ;
+    .
+
+<#syntax-undef-named-gap-keeps-slots> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-named-gap-keeps-slots" ;
+    rdfs:comment "a named gap keeps slots" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-named-gap-keeps-slots.rq> ;
+    .
+
+<#syntax-undef-gap-and-undef-pattern> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-gap-and-undef-pattern" ;
+    rdfs:comment "undef after a gap: the last member follows a slot" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-gap-and-undef-pattern.rq> ;
+    .
+
+<#syntax-undef-nested> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-nested" ;
+    rdfs:comment "a variable at a slot in a nested sequence" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-nested.rq> ;
+    .
+
+<#syntax-undef-whole-value> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-whole-value" ;
+    rdfs:comment "a variable binds a whole sequence holding a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-whole-value.rq> ;
+    .
+
+<#syntax-undef-whole-value-join> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-whole-value-join" ;
+    rdfs:comment "a sequence holding a slot joins as a value" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-whole-value-join.rq> ;
+    .
+
+<#syntax-undef-filter-not-bound> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-filter-not-bound" ;
+    rdfs:comment "a variable at a slot is not bound, so a filter may not assume it" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-filter-not-bound.rq> ;
+    .
+
+<#syntax-undef-filter-equal> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-filter-equal" ;
+    rdfs:comment "a filter on it is an error at the slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-filter-equal.rq> ;
+    .
+
+<#syntax-undef-filter-compare> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-filter-compare" ;
+    rdfs:comment "likewise with a comparison" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-filter-compare.rq> ;
+    .
+
+<#syntax-undef-optional-after-pattern> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-optional-after-pattern" ;
+    rdfs:comment "OPTIONAL after undef in a pattern" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-optional-after-pattern.rq> ;
+    .
+
+<#syntax-undef-optional-binds> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-optional-binds" ;
+    rdfs:comment "the variable is unbound at :x, so the OPTIONAL is free to bind it" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-optional-binds.rq> ;
+    .
+
+<#syntax-undef-index> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-index" ;
+    rdfs:comment "an index at a slot is an error, as out of range is" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-index.rq> ;
+    .
+
+<#syntax-undef-seqlen-slice> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-seqlen-slice" ;
+    rdfs:comment "SEQLEN counts slots, and slices keep them" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-seqlen-slice.rq> ;
+    .
+
+<#syntax-undef-in-member> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-in-member" ;
+    rdfs:comment "IN looks at members" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-in-member.rq> ;
+    .
+
+<#syntax-undef-in-skips-slot> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-in-skips-slot" ;
+    rdfs:comment "IN skips slots: false, not an error" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-in-skips-slot.rq> ;
+    .
+
+<#syntax-undef-not-in-skips-slot> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-not-in-skips-slot" ;
+    rdfs:comment "NOT IN likewise" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-not-in-skips-slot.rq> ;
+    .
+
+<#syntax-undef-equal-seq> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-equal-seq" ;
+    rdfs:comment "= compares slot with slot" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-equal-seq.rq> ;
+    .
+
+<#syntax-undef-sameterm-seq> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-sameterm-seq" ;
+    rdfs:comment "sameTerm likewise" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-sameterm-seq.rq> ;
+    .
+
+<#syntax-undef-equal-value> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-equal-value" ;
+    rdfs:comment "= is false between a slot and a value" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-equal-value.rq> ;
+    .
+
+<#syntax-undef-not-equal-value> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-not-equal-value" ;
+    rdfs:comment "!= is true between a slot and a value" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-not-equal-value.rq> ;
+    .
+
+<#syntax-undef-seq-unbound> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-seq-unbound" ;
+    rdfs:comment "SEQ of an unbound variable writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-seq-unbound.rq> ;
+    .
+
+<#syntax-undef-seq-literal-slot> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-seq-literal-slot" ;
+    rdfs:comment "undef as an argument of SEQ, at two depths" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-seq-literal-slot.rq> ;
+    .
+
+<#syntax-undef-seq-round-trip> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-seq-round-trip" ;
+    rdfs:comment "a variable read at a slot writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-seq-round-trip.rq> ;
+    .
+
+<#syntax-undef-seq-error> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-seq-error" ;
+    rdfs:comment "any other error in an argument is the error of the SEQ" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action <../eval/undef-seq-error.rq> ;
+    .
+
+<#syntax-undef-unnest> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-unnest" ;
+    rdfs:comment "UNNEST yields a solution at a slot, with the member unbound and the position bound" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:UndefSlots ;
+    mf:action <../eval/undef-unnest.rq> ;
+    .
+
+<#syntax-undef-unnest-bound> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-unnest-bound" ;
+    rdfs:comment "FILTER(BOUND(?m)) drops the slot" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:UndefSlots ;
+    mf:action <../eval/undef-unnest-bound.rq> ;
+    .
+
+<#syntax-undef-order-by> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-order-by" ;
+    rdfs:comment "a slot sorts before every term" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-order-by.rq> ;
+    .
+
+<#syntax-undef-order-by-members> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-order-by-members" ;
+    rdfs:comment "member by member, with a shorter prefix first" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-order-by-members.rq> ;
+    .
+
+<#syntax-undef-values-unchanged> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-values-unchanged" ;
+    rdfs:comment "VALUES ?x { undef } keeps its meaning" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-values-unchanged.rq> ;
+    .
+
+<#syntax-undef-construct-round-trip> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-construct-round-trip" ;
+    rdfs:comment "an unbound variable in a template sequence writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-construct-round-trip.rq> ;
+    .
+
+<#syntax-undef-construct-template-slot> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-construct-template-slot" ;
+    rdfs:comment "undef in a template" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-construct-template-slot.rq> ;
+    .
+
+<#syntax-undef-construct-top-level-unbound> a mf:PositiveSyntaxTest11 ;
+    mf:name "syntax-undef-construct-top-level-unbound" ;
+    rdfs:comment "an unbound variable at the top level of a template still drops the triple" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action <../eval/undef-construct-top-level-unbound.rq> ;
     .

@@ -15,6 +15,12 @@
         <#nt-bad-seq-predicate>
         <#nt-bad-seq-unclosed>
         <#nt-bad-seq-prefixed-name>
+        <#undef-nt-object>
+        <#undef-nt-subject>
+        <#undef-nt-case>
+        <#undef-nt-bad-object>
+        <#undef-nt-bad-subject>
+        <#undef-nt-bad-predicate>
     ) .
 
 <#nt-seq-object> a rdft:TestNTriplesPositiveSyntax ;
@@ -57,4 +63,46 @@
     rdfs:comment "N-Triples has no prefixed names, inside sequences either" ;
     mf:requires ra:Sequences ;
     mf:action <nt-bad-seq-prefixed-name.nt> ;
+    .
+
+<#undef-nt-object> a rdft:TestNTriplesPositiveSyntax ;
+    mf:name "undef-nt-object" ;
+    rdfs:comment "N-Triples-array: a slot as a member, at two depths" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-nt-object.nt> ;
+    .
+
+<#undef-nt-subject> a rdft:TestNTriplesPositiveSyntax ;
+    mf:name "undef-nt-subject" ;
+    rdfs:comment "N-Triples-array: a slot in a sequence as subject" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-nt-subject.nt> ;
+    .
+
+<#undef-nt-case> a rdft:TestNTriplesPositiveSyntax ;
+    mf:name "undef-nt-case" ;
+    rdfs:comment "N-Triples-array: undef in any case" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-nt-case.nt> ;
+    .
+
+<#undef-nt-bad-object> a rdft:TestNTriplesNegativeSyntax ;
+    mf:name "undef-nt-bad-object" ;
+    rdfs:comment "a slot is not an object" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-nt-bad-object.nt> ;
+    .
+
+<#undef-nt-bad-subject> a rdft:TestNTriplesNegativeSyntax ;
+    mf:name "undef-nt-bad-subject" ;
+    rdfs:comment "a slot is not a subject" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-nt-bad-subject.nt> ;
+    .
+
+<#undef-nt-bad-predicate> a rdft:TestNTriplesNegativeSyntax ;
+    mf:name "undef-nt-bad-predicate" ;
+    rdfs:comment "a slot is not a predicate" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-nt-bad-predicate.nt> ;
     .

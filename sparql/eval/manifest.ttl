@@ -46,6 +46,54 @@
         <#function-chained-index-seqlen>
         <#function-in-sequence>
         <#function-nested-equality>
+        <#undef-variable-unbound>
+        <#undef-length-counts>
+        <#undef-pattern-matches-slot>
+        <#undef-constant-pattern>
+        <#undef-pattern-case>
+        <#undef-constant-no-match>
+        <#undef-constant-and-variable>
+        <#undef-join-bgp-before>
+        <#undef-join-bgp-after>
+        <#undef-join-values-before>
+        <#undef-join-values-after>
+        <#undef-join-groups>
+        <#undef-join-bind>
+        <#undef-join-value-at-member>
+        <#undef-repeated-variable>
+        <#undef-gap-stops-at-slot>
+        <#undef-named-gap-keeps-slots>
+        <#undef-gap-and-undef-pattern>
+        <#undef-nested>
+        <#undef-whole-value>
+        <#undef-whole-value-join>
+        <#undef-filter-not-bound>
+        <#undef-filter-equal>
+        <#undef-filter-compare>
+        <#undef-optional-after-pattern>
+        <#undef-optional-binds>
+        <#undef-index>
+        <#undef-seqlen-slice>
+        <#undef-in-member>
+        <#undef-in-skips-slot>
+        <#undef-not-in-skips-slot>
+        <#undef-equal-seq>
+        <#undef-sameterm-seq>
+        <#undef-equal-value>
+        <#undef-not-equal-value>
+        <#undef-seq-unbound>
+        <#undef-seq-literal-slot>
+        <#undef-seq-round-trip>
+        <#undef-seq-error>
+        <#undef-unnest>
+        <#undef-unnest-bound>
+        <#undef-order-by>
+        <#undef-order-by-members>
+        <#undef-values-unchanged>
+        <#undef-construct-round-trip>
+        <#undef-construct-template-slot>
+        <#undef-construct-top-level-unbound>
+        <#undef-graph>
     ) .
 
 <#exact-sequence> a mf:QueryEvaluationTest ;
@@ -342,4 +390,388 @@
     mf:requires ra:SequencePatterns, ra:SequenceFunctions ;
     mf:action [ qt:query <function-nested-equality.rq> ; qt:data <data-nested.ttl> ] ;
     mf:result <function-nested-equality.srj> ;
+    .
+
+<#undef-variable-unbound> a mf:QueryEvaluationTest ;
+    mf:name "undef-variable-unbound" ;
+    rdfs:comment "a variable at a slot stays unbound" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-variable-unbound.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-variable-unbound.srj> ;
+    .
+
+<#undef-length-counts> a mf:QueryEvaluationTest ;
+    mf:name "undef-length-counts" ;
+    rdfs:comment "a slot counts: the length still has to match" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-length-counts.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-length-counts.srj> ;
+    .
+
+<#undef-pattern-matches-slot> a mf:QueryEvaluationTest ;
+    mf:name "undef-pattern-matches-slot" ;
+    rdfs:comment "undef in a pattern matches only a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-pattern-matches-slot.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-pattern-matches-slot.srj> ;
+    .
+
+<#undef-constant-pattern> a mf:QueryEvaluationTest ;
+    mf:name "undef-constant-pattern" ;
+    rdfs:comment "a sequence term with a slot, written whole" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-constant-pattern.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-constant-pattern.srj> ;
+    .
+
+<#undef-pattern-case> a mf:QueryEvaluationTest ;
+    mf:name "undef-pattern-case" ;
+    rdfs:comment "undef in any case" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-pattern-case.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-pattern-case.srj> ;
+    .
+
+<#undef-constant-no-match> a mf:QueryEvaluationTest ;
+    mf:name "undef-constant-no-match" ;
+    rdfs:comment "a constant does not match a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-constant-no-match.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-constant-no-match.srj> ;
+    .
+
+<#undef-constant-and-variable> a mf:QueryEvaluationTest ;
+    mf:name "undef-constant-and-variable" ;
+    rdfs:comment "a constant does not match a slot, beside a variable" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-constant-and-variable.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-constant-and-variable.srj> ;
+    .
+
+<#undef-join-bgp-before> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-bgp-before" ;
+    rdfs:comment "a variable bound earlier in the BGP is compatible with a slot; :y holds 2, not 5" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-bgp-before.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-bgp-before.srj> ;
+    .
+
+<#undef-join-bgp-after> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-bgp-after" ;
+    rdfs:comment "the same with the triple patterns the other way round" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-bgp-after.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-bgp-after.srj> ;
+    .
+
+<#undef-join-values-before> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-values-before" ;
+    rdfs:comment "VALUES before: the variable joins through the slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-values-before.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-values-before.srj> ;
+    .
+
+<#undef-join-values-after> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-values-after" ;
+    rdfs:comment "VALUES after" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-values-after.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-values-after.srj> ;
+    .
+
+<#undef-join-groups> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-groups" ;
+    rdfs:comment "a join of two groups" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-groups.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-groups.srj> ;
+    .
+
+<#undef-join-bind> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-bind" ;
+    rdfs:comment "BIND before" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-bind.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-bind.srj> ;
+    .
+
+<#undef-join-value-at-member> a mf:QueryEvaluationTest ;
+    mf:name "undef-join-value-at-member" ;
+    rdfs:comment "a bound variable matches an equal member, and joins through the slot of :x too" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-join-value-at-member.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-join-value-at-member.srj> ;
+    .
+
+<#undef-repeated-variable> a mf:QueryEvaluationTest ;
+    mf:name "undef-repeated-variable" ;
+    rdfs:comment "a repeated variable: a slot leaves the binding to the other position" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-repeated-variable.rq> ; qt:data <data-undef-repeat.ttl> ] ;
+    mf:result <undef-repeated-variable.srj> ;
+    .
+
+<#undef-gap-stops-at-slot> a mf:QueryEvaluationTest ;
+    mf:name "undef-gap-stops-at-slot" ;
+    rdfs:comment "a gap stops at each slot: three solutions, one with ?m unbound" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-gap-stops-at-slot.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-gap-stops-at-slot.srj> ;
+    .
+
+<#undef-named-gap-keeps-slots> a mf:QueryEvaluationTest ;
+    mf:name "undef-named-gap-keeps-slots" ;
+    rdfs:comment "a named gap keeps slots" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-named-gap-keeps-slots.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-named-gap-keeps-slots.srj> ;
+    .
+
+<#undef-gap-and-undef-pattern> a mf:QueryEvaluationTest ;
+    mf:name "undef-gap-and-undef-pattern" ;
+    rdfs:comment "undef after a gap: the last member follows a slot" ;
+    mf:requires ra:SequencePatterns, ra:GapPatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-gap-and-undef-pattern.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-gap-and-undef-pattern.srj> ;
+    .
+
+<#undef-nested> a mf:QueryEvaluationTest ;
+    mf:name "undef-nested" ;
+    rdfs:comment "a variable at a slot in a nested sequence" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-nested.rq> ; qt:data <data-undef-nested.ttl> ] ;
+    mf:result <undef-nested.srj> ;
+    .
+
+<#undef-whole-value> a mf:QueryEvaluationTest ;
+    mf:name "undef-whole-value" ;
+    rdfs:comment "a variable binds a whole sequence holding a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-whole-value.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-whole-value.srj> ;
+    .
+
+<#undef-whole-value-join> a mf:QueryEvaluationTest ;
+    mf:name "undef-whole-value-join" ;
+    rdfs:comment "a sequence holding a slot joins as a value" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-whole-value-join.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-whole-value-join.srj> ;
+    .
+
+<#undef-filter-not-bound> a mf:QueryEvaluationTest ;
+    mf:name "undef-filter-not-bound" ;
+    rdfs:comment "a variable at a slot is not bound, so a filter may not assume it" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-filter-not-bound.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-filter-not-bound.srj> ;
+    .
+
+<#undef-filter-equal> a mf:QueryEvaluationTest ;
+    mf:name "undef-filter-equal" ;
+    rdfs:comment "a filter on it is an error at the slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-filter-equal.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-filter-equal.srj> ;
+    .
+
+<#undef-filter-compare> a mf:QueryEvaluationTest ;
+    mf:name "undef-filter-compare" ;
+    rdfs:comment "likewise with a comparison" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-filter-compare.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-filter-compare.srj> ;
+    .
+
+<#undef-optional-after-pattern> a mf:QueryEvaluationTest ;
+    mf:name "undef-optional-after-pattern" ;
+    rdfs:comment "OPTIONAL after undef in a pattern" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-optional-after-pattern.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-optional-after-pattern.srj> ;
+    .
+
+<#undef-optional-binds> a mf:QueryEvaluationTest ;
+    mf:name "undef-optional-binds" ;
+    rdfs:comment "the variable is unbound at :x, so the OPTIONAL is free to bind it" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-optional-binds.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-optional-binds.srj> ;
+    .
+
+<#undef-index> a mf:QueryEvaluationTest ;
+    mf:name "undef-index" ;
+    rdfs:comment "an index at a slot is an error, as out of range is" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-index.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-index.srj> ;
+    .
+
+<#undef-seqlen-slice> a mf:QueryEvaluationTest ;
+    mf:name "undef-seqlen-slice" ;
+    rdfs:comment "SEQLEN counts slots, and slices keep them" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-seqlen-slice.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-seqlen-slice.srj> ;
+    .
+
+<#undef-in-member> a mf:QueryEvaluationTest ;
+    mf:name "undef-in-member" ;
+    rdfs:comment "IN looks at members" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-in-member.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-in-member.srj> ;
+    .
+
+<#undef-in-skips-slot> a mf:QueryEvaluationTest ;
+    mf:name "undef-in-skips-slot" ;
+    rdfs:comment "IN skips slots: false, not an error" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-in-skips-slot.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-in-skips-slot.srj> ;
+    .
+
+<#undef-not-in-skips-slot> a mf:QueryEvaluationTest ;
+    mf:name "undef-not-in-skips-slot" ;
+    rdfs:comment "NOT IN likewise" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-not-in-skips-slot.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-not-in-skips-slot.srj> ;
+    .
+
+<#undef-equal-seq> a mf:QueryEvaluationTest ;
+    mf:name "undef-equal-seq" ;
+    rdfs:comment "= compares slot with slot" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-equal-seq.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-equal-seq.srj> ;
+    .
+
+<#undef-sameterm-seq> a mf:QueryEvaluationTest ;
+    mf:name "undef-sameterm-seq" ;
+    rdfs:comment "sameTerm likewise" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-sameterm-seq.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-sameterm-seq.srj> ;
+    .
+
+<#undef-equal-value> a mf:QueryEvaluationTest ;
+    mf:name "undef-equal-value" ;
+    rdfs:comment "= is false between a slot and a value" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-equal-value.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-equal-value.srj> ;
+    .
+
+<#undef-not-equal-value> a mf:QueryEvaluationTest ;
+    mf:name "undef-not-equal-value" ;
+    rdfs:comment "!= is true between a slot and a value" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-not-equal-value.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-not-equal-value.srj> ;
+    .
+
+<#undef-seq-unbound> a mf:QueryEvaluationTest ;
+    mf:name "undef-seq-unbound" ;
+    rdfs:comment "SEQ of an unbound variable writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-seq-unbound.rq> ] ;
+    mf:result <undef-seq-unbound.srj> ;
+    .
+
+<#undef-seq-literal-slot> a mf:QueryEvaluationTest ;
+    mf:name "undef-seq-literal-slot" ;
+    rdfs:comment "undef as an argument of SEQ, at two depths" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-seq-literal-slot.rq> ] ;
+    mf:result <undef-seq-literal-slot.srj> ;
+    .
+
+<#undef-seq-round-trip> a mf:QueryEvaluationTest ;
+    mf:name "undef-seq-round-trip" ;
+    rdfs:comment "a variable read at a slot writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-seq-round-trip.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-seq-round-trip.srj> ;
+    .
+
+<#undef-seq-error> a mf:QueryEvaluationTest ;
+    mf:name "undef-seq-error" ;
+    rdfs:comment "any other error in an argument is the error of the SEQ" ;
+    mf:requires ra:SequencePatterns, ra:SequenceFunctions, ra:UndefSlots ;
+    mf:action [ qt:query <undef-seq-error.rq> ] ;
+    mf:result <undef-seq-error.srj> ;
+    .
+
+<#undef-unnest> a mf:QueryEvaluationTest ;
+    mf:name "undef-unnest" ;
+    rdfs:comment "UNNEST yields a solution at a slot, with the member unbound and the position bound" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:UndefSlots ;
+    mf:action [ qt:query <undef-unnest.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-unnest.srj> ;
+    .
+
+<#undef-unnest-bound> a mf:QueryEvaluationTest ;
+    mf:name "undef-unnest-bound" ;
+    rdfs:comment "FILTER(BOUND(?m)) drops the slot" ;
+    mf:requires ra:SequencePatterns, ra:Unnest, ra:UndefSlots ;
+    mf:action [ qt:query <undef-unnest-bound.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-unnest-bound.srj> ;
+    .
+
+<#undef-order-by> a mf:QueryEvaluationTest ;
+    mf:name "undef-order-by" ;
+    rdfs:comment "a slot sorts before every term" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-order-by.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-order-by.srj> ;
+    .
+
+<#undef-order-by-members> a mf:QueryEvaluationTest ;
+    mf:name "undef-order-by-members" ;
+    rdfs:comment "member by member, with a shorter prefix first" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-order-by-members.rq> ; qt:data <data-undef-order.ttl> ] ;
+    mf:result <undef-order-by-members.srj> ;
+    .
+
+<#undef-values-unchanged> a mf:QueryEvaluationTest ;
+    mf:name "undef-values-unchanged" ;
+    rdfs:comment "VALUES ?x { undef } keeps its meaning" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-values-unchanged.rq> ] ;
+    mf:result <undef-values-unchanged.srj> ;
+    .
+
+<#undef-construct-round-trip> a mf:QueryEvaluationTest ;
+    mf:name "undef-construct-round-trip" ;
+    rdfs:comment "an unbound variable in a template sequence writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-construct-round-trip.rq> ; qt:data <data-undef.ttl> ] ;
+    mf:result <undef-construct-round-trip.nt> ;
+    .
+
+<#undef-construct-template-slot> a mf:QueryEvaluationTest ;
+    mf:name "undef-construct-template-slot" ;
+    rdfs:comment "undef in a template" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-construct-template-slot.rq> ] ;
+    mf:result <undef-construct-template-slot.nt> ;
+    .
+
+<#undef-construct-top-level-unbound> a mf:QueryEvaluationTest ;
+    mf:name "undef-construct-top-level-unbound" ;
+    rdfs:comment "an unbound variable at the top level of a template still drops the triple" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-construct-top-level-unbound.rq> ] ;
+    mf:result <undef-construct-top-level-unbound.nt> ;
+    .
+
+<#undef-graph> a mf:QueryEvaluationTest ;
+    mf:name "undef-graph" ;
+    rdfs:comment "a variable joins through a slot inside GRAPH" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ qt:query <undef-graph.rq> ; qt:graphData <data-undef.ttl> ] ;
+    mf:result <undef-graph.srj> ;
     .

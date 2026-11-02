@@ -44,6 +44,48 @@
    ]
   },
   {
+   "test": "rdf/rdf-turtle/manifest#undef-object",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.turtle_slot"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#undef-case-insensitive",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.turtle_case_insensitive_as_in_sparql"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#undef-nested-subject",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.turtle_nested_and_subject"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#undef-prefixed-name",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.turtle_prefixed_name_is_not_a_slot"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#undef-with-bnodes",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.isomorphism"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#undef-bad-object",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.turtle_slot_only_in_a_sequence"
+   ]
+  },
+  {
+   "test": "rdf/rdf-turtle/manifest#undef-bad-subject",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.turtle_slot_only_in_a_sequence"
+   ]
+  },
+  {
    "test": "rdf/rdf-trig/manifest#trig-seq-in-graph",
    "duplicates": [
     "jena-array jena-arq TestLangSequences.trig_sequence"
@@ -53,6 +95,18 @@
    "test": "rdf/rdf-n-triples/manifest#nt-seq-object",
    "duplicates": [
     "jena-array jena-arq TestLangSequences.ntriples_sequence"
+   ]
+  },
+  {
+   "test": "rdf/rdf-n-triples/manifest#undef-nt-object",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.ntriples_slot"
+   ]
+  },
+  {
+   "test": "rdf/rdf-n-triples/manifest#undef-nt-bad-object",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.ntriples_slot_only_in_a_sequence"
    ]
   },
   {
@@ -206,6 +260,270 @@
    ]
   },
   {
+   "test": "sparql/eval/manifest#undef-variable-unbound",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_at_a_slot_stays_unbound"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-length-counts",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.length_still_counts"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-pattern-matches-slot",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.undef_in_a_pattern_matches_only_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-constant-pattern",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.undef_in_a_pattern_matches_only_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-constant-no-match",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.constant_does_not_match_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-constant-and-variable",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.constant_does_not_match_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-join-bgp-before",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_may_be_bound_at_a_slot_within_a_bgp"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-join-bgp-after",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_may_be_bound_at_a_slot_within_a_bgp"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-join-values-before",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_may_be_bound_at_a_slot_across_a_join"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-join-values-after",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_may_be_bound_at_a_slot_across_a_join"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-join-groups",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_may_be_bound_at_a_slot_across_a_join"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-join-bind",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.variable_may_be_bound_at_a_slot_across_a_join"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-repeated-variable",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.repeated_variable"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-gap-stops-at-slot",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.gap_stops_at_each_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-named-gap-keeps-slots",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.named_gap_keeps_the_slots"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-nested",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.nested_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-whole-value",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.sequence_with_slot_as_a_value"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-whole-value-join",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.sequence_with_slot_as_a_value"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-filter-not-bound",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.filter_on_bound"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-filter-equal",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.filter_on_value"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-filter-compare",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.filter_on_value"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-optional-after-pattern",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.optional_after_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-optional-binds",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.optional_after_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-index",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.index_of_a_slot_is_an_error"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-seqlen-slice",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.length_and_slice_keep_the_slots"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-in-member",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.in_skips_slots"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-in-skips-slot",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.in_skips_slots"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-not-in-skips-slot",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.in_skips_slots"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-equal-seq",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.equality"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-sameterm-seq",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.equality"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-equal-value",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.equality"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-not-equal-value",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.equality"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-seq-unbound",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.seq_of_an_unbound_variable_is_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-seq-literal-slot",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.query_serialization"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-seq-round-trip",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.seq_of_an_unbound_variable_is_a_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-seq-error",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.seq_of_any_other_error_is_an_error"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-unnest",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.unnest_keeps_the_position"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-unnest-bound",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.unnest_keeps_the_position"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-order-by",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.order_by_with_slots"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-values-unchanged",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.values_undef_is_unchanged"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-construct-round-trip",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.construct_round_trip"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-construct-template-slot",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.template_literal_slot"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-construct-top-level-unbound",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.template_unbound_top_level_still_drops_the_triple"
+   ]
+  },
+  {
+   "test": "sparql/eval/manifest#undef-graph",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.quads"
+   ]
+  },
+  {
    "test": "sparql/update/manifest#insert-data-sequence",
    "duplicates": [
     "jena-array jena-arq TestSequenceQueries.update_insert_data_and_delete_data"
@@ -215,6 +533,30 @@
    "test": "sparql/update/manifest#delete-data-sequence",
    "duplicates": [
     "jena-array jena-arq TestSequenceQueries.update_insert_data_and_delete_data"
+   ]
+  },
+  {
+   "test": "sparql/update/manifest#undef-insert-data",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.update"
+   ]
+  },
+  {
+   "test": "sparql/update/manifest#undef-insert-where",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.update"
+   ]
+  },
+  {
+   "test": "sparql/results/manifest#undef-results-srj",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.results_json"
+   ]
+  },
+  {
+   "test": "sparql/results/manifest#undef-results-srx",
+   "duplicates": [
+    "jena-array jena-arq TestUndefSlots.results_xml"
    ]
   },
   {

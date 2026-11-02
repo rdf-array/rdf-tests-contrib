@@ -13,6 +13,8 @@
         <#results-srx>
         <#results-csv>
         <#results-tsv>
+        <#undef-results-srj>
+        <#undef-results-srx>
     ) .
 
 <#results-srj> a mf:QueryEvaluationTest ;
@@ -45,4 +47,20 @@
     mf:requires ra:SequencePatterns, ra:SequenceResults ;
     mf:action [ qt:query <../eval/sequence-whole-binding.rq> ; qt:data <../eval/data.ttl> ] ;
     mf:result <sequences.tsv> ;
+    .
+
+<#undef-results-srj> a mf:QueryEvaluationTest ;
+    mf:name "undef-results-srj" ;
+    rdfs:comment "a slot in a sequence in the application/sparql-results+json results format" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots, ra:SequenceResults ;
+    mf:action [ qt:query <undef-values.rq> ; qt:data <../eval/data-undef.ttl> ] ;
+    mf:result <undef-values.srj> ;
+    .
+
+<#undef-results-srx> a mf:QueryEvaluationTest ;
+    mf:name "undef-results-srx" ;
+    rdfs:comment "a slot in a sequence in the application/sparql-results+xml results format" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots, ra:SequenceResults ;
+    mf:action [ qt:query <undef-values.rq> ; qt:data <../eval/data-undef.ttl> ] ;
+    mf:result <undef-values.srx> ;
     .

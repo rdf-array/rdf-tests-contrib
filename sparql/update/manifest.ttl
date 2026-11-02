@@ -12,6 +12,10 @@
         <#insert-data-sequence>
         <#delete-data-sequence>
         <#delete-where-position>
+        <#undef-insert-data>
+        <#undef-delete-data>
+        <#undef-insert-where>
+        <#undef-delete-where>
     ) .
 
 <#insert-data-sequence> a mf:UpdateEvaluationTest ;
@@ -36,4 +40,36 @@
     mf:requires ra:SequencePatterns, ra:Unnest ;
     mf:action [ ut:request <delete-where-position.ru> ; ut:data <delete-where-position-pre.ttl> ] ;
     mf:result [ ut:data <delete-where-position-post.nt> ] ;
+    .
+
+<#undef-insert-data> a mf:UpdateEvaluationTest ;
+    mf:name "undef-insert-data" ;
+    rdfs:comment "INSERT DATA with a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ ut:request <undef-insert-data.ru> ; ut:data <undef-insert-data-pre.ttl> ] ;
+    mf:result [ ut:data <undef-insert-data-post.nt> ] ;
+    .
+
+<#undef-delete-data> a mf:UpdateEvaluationTest ;
+    mf:name "undef-delete-data" ;
+    rdfs:comment "DELETE DATA removes the triple with the slot, and not one with a value there" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ ut:request <undef-delete-data.ru> ; ut:data <undef-delete-data-pre.ttl> ] ;
+    mf:result [ ut:data <undef-delete-data-post.nt> ] ;
+    .
+
+<#undef-insert-where> a mf:UpdateEvaluationTest ;
+    mf:name "undef-insert-where" ;
+    rdfs:comment "INSERT: an unbound variable in a template sequence writes a slot" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ ut:request <undef-insert-where.ru> ; ut:data <undef-insert-where-pre.ttl> ] ;
+    mf:result [ ut:data <undef-insert-where-post.nt> ] ;
+    .
+
+<#undef-delete-where> a mf:UpdateEvaluationTest ;
+    mf:name "undef-delete-where" ;
+    rdfs:comment "DELETE with undef in the pattern and the template" ;
+    mf:requires ra:SequencePatterns, ra:UndefSlots ;
+    mf:action [ ut:request <undef-delete-where.ru> ; ut:data <undef-delete-where-pre.ttl> ] ;
+    mf:result [ ut:data <undef-delete-where-post.nt> ] ;
     .

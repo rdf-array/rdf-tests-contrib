@@ -24,6 +24,15 @@ position patterns (`ra:PositionPatterns`) on 2026-10-31: `((?e))[?i]` and `((?e)
 sequence bound by the triple pattern, `((?e))[n]` a pattern with a gap after `?e`, and `((?e))[?i]` with `?i`
 bound earlier the index `?seq[?i]`; every rewritten test keeps its expected result.
 
+## Slots (branch `rdf-undef`)
+
+On this branch every manifest also carries the empty slot of a sequence, `( 1 undef 3 )`
+([rdf-undef.md](https://github.com/rdf-array/rdf-array/blob/rdf-undef/docs/rdf-undef.md)): the tests are named `undef-*`
+and require `ra:UndefSlots`. Syntax: positive and negative in Turtle, TriG, N-Triples, N-Quads and SPARQL. Evaluation:
+§3's table row by row over `data-undef.ttl`, seeded from jena-array's `TestUndefSlots`. Results: `undef-values.srj` and
+`.srx`. `python3 bin/build.py --jena-only` leaves out the cross-check of these tests against N3.js-array and
+comunica-array; the plain build needs those two on their `rdf-undef` branches.
+
 ## How the expectations were made
 
 [bin/build.py](bin/build.py) holds every case and writes every file; nothing here is edited by hand.

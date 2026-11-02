@@ -12,6 +12,9 @@
         <#trig-seq-in-graph>
         <#trig-seq-subject-in-graph>
         <#trig-bad-seq-graph-name>
+        <#undef-trig-in-graph>
+        <#undef-trig-bad-graph-name>
+        <#undef-trig-bad-object>
     ) .
 
 <#trig-seq-in-graph> a rdft:TestTrigEval ;
@@ -35,4 +38,26 @@
     rdfs:comment "a sequence is not a graph name" ;
     mf:requires ra:Sequences ;
     mf:action <trig-bad-seq-graph-name.trig> ;
+    .
+
+<#undef-trig-in-graph> a rdft:TestTrigEval ;
+    mf:name "undef-trig-in-graph" ;
+    rdfs:comment "slots in sequences in a named graph" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-trig-in-graph.trig> ;
+    mf:result <undef-trig-in-graph.nq> ;
+    .
+
+<#undef-trig-bad-graph-name> a rdft:TestTrigNegativeSyntax ;
+    mf:name "undef-trig-bad-graph-name" ;
+    rdfs:comment "a slot is not a graph name" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-trig-bad-graph-name.trig> ;
+    .
+
+<#undef-trig-bad-object> a rdft:TestTrigNegativeSyntax ;
+    mf:name "undef-trig-bad-object" ;
+    rdfs:comment "a slot is not an object" ;
+    mf:requires ra:Sequences, ra:UndefSlots ;
+    mf:action <undef-trig-bad-object.trig> ;
     .
