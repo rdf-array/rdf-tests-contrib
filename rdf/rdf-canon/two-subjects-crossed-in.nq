@@ -1,0 +1,2 @@
+_:a <http://example.org/p> (_:x _:y) .
+_:b <http://example.org/p> (_:y _:x) .

@@ -10,6 +10,7 @@ other. Published at <https://rdf-array.github.io/rdf-tests-contrib/>.
 |---|---|
 | [rdf/rdf-turtle](rdf/rdf-turtle/manifest.ttl), [rdf-trig](rdf/rdf-trig/manifest.ttl) | evaluation tests (input → N-Triples-array / N-Quads-array) and negative syntax tests |
 | [rdf/rdf-n-triples](rdf/rdf-n-triples/manifest.ttl), [rdf-n-quads](rdf/rdf-n-quads/manifest.ttl) | N-Triples-array and N-Quads-array positive and negative syntax tests |
+| [rdf/rdf-canon](rdf/rdf-canon/manifest.ttl) | RDFC-1.0 over sequences ([rdfc-array.md](https://github.com/rdf-array/rdf-array/blob/rdf-sequences/docs/rdfc-array.md)), in the manifest format of W3C's rdf-canon suite; `node bin/build-rdfc.js` writes it from rdf-canonize-array, and Oxigraph's run checks it. It is not in the top-level `manifest.ttl`, since a syntax runner has no use for it |
 | [sparql/eval](sparql/eval/manifest.ttl) | query evaluation: sequence patterns, ordering, CONSTRUCT, gap patterns, UNNEST, sequence functions, and [array-syntax.md](https://github.com/rdf-array/rdf-array/blob/rdf-sequences/docs/array-syntax.md) §4.1's twelve queries over its nested data (`data-nested.ttl`) with their results |
 | [sparql/update](sparql/update/manifest.ttl) | update evaluation: INSERT DATA, DELETE DATA, spreading a sequence with UNNEST |
 | [sparql/syntax-query](sparql/syntax-query/manifest.ttl) | positive syntax (every evaluation query, and the lexing and expression forms of array-syntax.md §5) and negative syntax (`[2:4]`, `[...]`, a gap in a CONSTRUCT template, `UNNEST` without `AS`, the former `((e))[i]`) |
