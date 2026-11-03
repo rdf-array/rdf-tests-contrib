@@ -42,7 +42,14 @@ const CASES = [
     `${S} ${P} (_:x _:y _:a) .`, `${S} ${P} (_:x _:u _:b) .`, `${S} ${P} (_:w _:y _:b) .`, `${S} ${P} (_:w _:u _:a) .`]],
   ['latin-rectangle', 'every blank node once at every position: all tie at first degree, with no automorphism', [
     `${S} ${P} (_:a _:f _:c _:d _:e _:b) .`, `${S} ${P} (_:c _:e _:b _:a _:d _:f) .`,
-    `${S} ${P} (_:d _:c _:a _:b _:f _:e) .`]]
+    `${S} ${P} (_:d _:c _:a _:b _:f _:e) .`]],
+  ['undef-ground', 'a slot is written undef, whatever its case in the input', [`${S} ${P} (UNDEF "a" (Undef)) .`]],
+  ['undef-position', 'a slot counts as an element', [`${S} ${P} (undef _:x) .`, `${S} ${Q} (_:x undef) .`]],
+  ['undef-shorter', 'a sequence with a slot differs from the shorter one', [`_:x ${P} (_:y undef) .`, `_:x ${P} (_:y) .`]],
+  ['undef-symmetric', 'an automorphism swaps blank nodes around a slot', [
+    `${S} ${P} (_:x undef _:y) .`, `${S} ${P} (_:y undef _:x) .`]],
+  ['undef-only-difference', 'tied blank nodes told apart only by where a slot is', [
+    `_:a ${P} (_:x undef) .`, `_:b ${P} (undef _:x) .`]]
 ];
 
 let seed = 20261103;

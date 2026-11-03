@@ -1,0 +1,2 @@
+<http://example.org/s> <http://example.org/p> (_:x undef _:y) .
+<http://example.org/s> <http://example.org/p> (_:y undef _:x) .

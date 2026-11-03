@@ -24,6 +24,11 @@
     :two-subjects-crossed
     :parity
     :latin-rectangle
+    :undef-ground
+    :undef-position
+    :undef-shorter
+    :undef-symmetric
+    :undef-only-difference
   ) .
 
 :ground a rdfc:RDFC10EvalTest ;
@@ -137,3 +142,38 @@
   rdft:approval rdft:Proposed ;
   mf:action <latin-rectangle-in.nq> ;
   mf:result <latin-rectangle-rdfc10.nq> .
+
+:undef-ground a rdfc:RDFC10EvalTest ;
+  mf:name "undef-ground" ;
+  rdfs:comment "a slot is written undef, whatever its case in the input" ;
+  rdft:approval rdft:Proposed ;
+  mf:action <undef-ground-in.nq> ;
+  mf:result <undef-ground-rdfc10.nq> .
+
+:undef-position a rdfc:RDFC10EvalTest ;
+  mf:name "undef-position" ;
+  rdfs:comment "a slot counts as an element" ;
+  rdft:approval rdft:Proposed ;
+  mf:action <undef-position-in.nq> ;
+  mf:result <undef-position-rdfc10.nq> .
+
+:undef-shorter a rdfc:RDFC10EvalTest ;
+  mf:name "undef-shorter" ;
+  rdfs:comment "a sequence with a slot differs from the shorter one" ;
+  rdft:approval rdft:Proposed ;
+  mf:action <undef-shorter-in.nq> ;
+  mf:result <undef-shorter-rdfc10.nq> .
+
+:undef-symmetric a rdfc:RDFC10EvalTest ;
+  mf:name "undef-symmetric" ;
+  rdfs:comment "an automorphism swaps blank nodes around a slot" ;
+  rdft:approval rdft:Proposed ;
+  mf:action <undef-symmetric-in.nq> ;
+  mf:result <undef-symmetric-rdfc10.nq> .
+
+:undef-only-difference a rdfc:RDFC10EvalTest ;
+  mf:name "undef-only-difference" ;
+  rdfs:comment "tied blank nodes told apart only by where a slot is" ;
+  rdft:approval rdft:Proposed ;
+  mf:action <undef-only-difference-in.nq> ;
+  mf:result <undef-only-difference-rdfc10.nq> .

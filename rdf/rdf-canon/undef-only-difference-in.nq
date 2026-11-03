@@ -1,0 +1,2 @@
+_:a <http://example.org/p> (_:x undef) .
+_:b <http://example.org/p> (undef _:x) .
