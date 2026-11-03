@@ -1,0 +1,2 @@
+_:s <http://example.org/p> (_:x) _:g .
+_:x <http://example.org/q> "a" _:g .

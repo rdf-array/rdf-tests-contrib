@@ -1,0 +1,2 @@
+<http://example.org/s> <http://example.org/p> (_:x (_:y (_:x)) _:z) .
+_:z <http://example.org/q> _:y .
